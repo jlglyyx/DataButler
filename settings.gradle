@@ -1,0 +1,26 @@
+pluginManagement {
+    repositories {
+        // 1. 插件专用阿里云镜像
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        gradlePluginPortal() // 最后再走官方，保底用
+    }
+}
+
+// 这一块保持你原来的逻辑
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        mavenCentral()
+    }
+}
+
+
+rootProject.name = 'DataButler'
+include("lib-common")
+include("module-user")
+
+

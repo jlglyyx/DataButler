@@ -1,0 +1,23 @@
+description = 'module-user'
+
+dependencies {
+    // 1. 引用你的公共模块
+    implementation project(":lib-common")
+
+    // 2. 引入 Web 依赖（因为是业务模块，通常需要接口）
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+
+
+    // MyBatis-Plus
+    implementation 'com.baomidou:mybatis-plus-boot-starter:3.5.5'
+    // MySQL 驱动（8.x）
+    implementation 'com.mysql:mysql-connector-j:8.3.0'
+    // 代码生成器
+    implementation 'com.baomidou:mybatis-plus-generator:3.5.5'
+    // 模板引擎（推荐 Velocity）
+    implementation 'org.apache.velocity:velocity-engine-core:2.3'
+    // Lombok（可选但建议）
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+}

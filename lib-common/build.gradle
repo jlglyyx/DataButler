@@ -1,0 +1,12 @@
+
+description = 'lib-common'
+
+
+
+bootJar { enabled = false }
+jar { enabled = true }
+
+dependencies {
+
+//
+}
