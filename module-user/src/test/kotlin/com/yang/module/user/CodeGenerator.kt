@@ -9,7 +9,7 @@ import java.util.*
 
 fun main() {
     // 数据库配置
-    val url = "jdbc:mysql://localhost:3306/lpg?serverTimezone=GMT%2B8"
+    val url = "jdbc:mysql://localhost:3306/databutler?serverTimezone=GMT%2B8"
     val username = "root"
     val password = "root"
 
@@ -34,7 +34,8 @@ fun main() {
                 ))
         }
         .strategyConfig { builder ->
-            builder.addInclude("user_info") // 需要生成的表名
+            builder.addInclude("order_info") // 需要生成的表名
+//            builder.addInclude("user_info","product_info","user_extra_info") // 需要生成的表名
                 .entityBuilder()
                 .enableFileOverride() // 覆盖已生成文件
                 // Kotlin 不需要 Lombok，自动生成 Data Class（保持注释说明）
