@@ -62,7 +62,7 @@ class ProductInfo : Serializable {
     /**
      * 类型: 0-次数, 1-时长
      */
-    var type: Byte? = null
+    var type: Int? = null
 
     /**
      * 包含次数
@@ -107,12 +107,12 @@ class ProductInfo : Serializable {
     /**
      * 创建时间
      */
-    var createdTime: LocalDateTime? = null
+    var createTime: LocalDateTime? = null
 
     /**
      * 更新时间
      */
-    var updatedTime: LocalDateTime? = null
+    var updateTime: LocalDateTime? = null
 
     override fun toString(): String {
         return "ProductInfo{" +
@@ -133,8 +133,8 @@ class ProductInfo : Serializable {
         ", isSelected=" + isSelected +
         ", status=" + status +
         ", isVisible=" + isVisible +
-        ", createdTime=" + createdTime +
-        ", updatedTime=" + updatedTime +
+        ", createdTime=" + createTime +
+        ", updatedTime=" + updateTime +
         "}"
     }
 }

@@ -8,6 +8,8 @@ import com.yang.module.user.mapper.UserInfoMapper
 import com.yang.module.user.service.IUserInfoService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.bind.annotation.PostMapping
+import java.time.Duration
 import java.time.LocalDateTime
 
 /**
@@ -32,7 +34,7 @@ open class UserInfoServiceImpl(private val mUserExtraInfoMapper: UserExtraInfoMa
             .one()
 
         if (user == null) {
-            userInfo.createdTime = LocalDateTime.now()
+            userInfo.createTime = LocalDateTime.now()
             val isSaved = this.save(userInfo)
             if (isSaved) {
                 val extra = UserExtraInfo()
@@ -42,13 +44,30 @@ open class UserInfoServiceImpl(private val mUserExtraInfoMapper: UserExtraInfoMa
                 mUserExtraInfoMapper.insert(extra)
                 user = userInfo
             }
-        } else {
-            userInfo.id = user.id
-            updateById(userInfo)
-            user = ktQuery().eq(UserInfo::id, userInfo.id).one()
         }
 
         return user
+    }
+
+
+    override fun getUserInfo(id: Long): UserInfo? {
+
+        val userInfo = getById(id)
+
+        userInfo.isVip = userInfo.vipExpireTime?.isAfter(LocalDateTime.now()) ?: false
+
+        userInfo.vipDaysLeft = if (userInfo.isVip) Duration.between(LocalDateTime.now(), userInfo.vipExpireTime).toDays() else 0L
+
+        return userInfo
+    }
+
+
+    override fun isVip(id: Long): Boolean {
+
+        val userInfo = getById(id)?:return false
+
+       return  userInfo.vipExpireTime?.isAfter(LocalDateTime.now()) ?: false
+
     }
 
 }

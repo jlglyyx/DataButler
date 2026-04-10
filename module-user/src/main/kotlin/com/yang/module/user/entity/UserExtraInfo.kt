@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author yyx
- * @since 2026-03-22
+ * @since 2026-04-01
  */
 @TableName("user_extra_info")
 class UserExtraInfo : Serializable {
@@ -29,6 +29,21 @@ class UserExtraInfo : Serializable {
     var userId: Long? = null
 
     /**
+     * 应用名称标识 (如: DataButler)
+     */
+    var appName: String? = null
+
+    /**
+     * 平台 (Android/iOS)
+     */
+    var platform: String? = null
+
+    /**
+     * 应用版本 (Name.Code)
+     */
+    var appVersion: String? = null
+
+    /**
      * 是否首次登录: 1-是, 0-否
      */
     var isFirstLogin: Boolean? = null
@@ -39,19 +54,24 @@ class UserExtraInfo : Serializable {
     var lastLoginTime: LocalDateTime? = null
 
     /**
-     * 当前使用的 App 版本号
+     * 手机品牌 (如: Xiaomi, Huawei)
      */
-    var appVersion: String? = null
+    var deviceBrand: String? = null
 
     /**
-     * 手机型号 (如: iPhone 15 Pro, Xiaomi 14)
+     * 手机型号 (如: Mi 14)
      */
     var deviceModel: String? = null
 
     /**
-     * 操作系统版本 (如: iOS 17.4, Android 14)
+     * 操作系统版本号
      */
     var osVersion: String? = null
+
+    /**
+     * 安卓系统原生 ID
+     */
+    var androidId: String? = null
 
     /**
      * 当前登录 IP 地址
@@ -59,33 +79,61 @@ class UserExtraInfo : Serializable {
     var currentIp: String? = null
 
     /**
-     * 预留 JSON 字段，存放不确定的扩展属性
+     * 系统语言 (如: zh)
+     */
+    var language: String? = null
+
+    /**
+     * 设备时区 (如: Asia/Shanghai)
+     */
+    var timezone: String? = null
+
+    /**
+     * 网络类型 (4G, 5G, WIFI)
+     */
+    var networkType: String? = null
+
+    /**
+     * 运营商名称
+     */
+    var operator: String? = null
+
+    /**
+     * 预留 JSON 字段
      */
     var extraData: String? = null
 
     /**
      * 记录创建时间
      */
-    var createdTime: LocalDateTime? = null
+    var createTime: LocalDateTime? = null
 
     /**
      * 记录更新时间
      */
-    var updatedTime: LocalDateTime? = null
+    var updateTime: LocalDateTime? = null
 
     override fun toString(): String {
         return "UserExtraInfo{" +
         "id=" + id +
         ", userId=" + userId +
+        ", appName=" + appName +
+        ", platform=" + platform +
+        ", appVersion=" + appVersion +
         ", isFirstLogin=" + isFirstLogin +
         ", lastLoginTime=" + lastLoginTime +
-        ", appVersion=" + appVersion +
+        ", deviceBrand=" + deviceBrand +
         ", deviceModel=" + deviceModel +
         ", osVersion=" + osVersion +
+        ", androidId=" + androidId +
         ", currentIp=" + currentIp +
+        ", language=" + language +
+        ", timezone=" + timezone +
+        ", networkType=" + networkType +
+        ", operator=" + operator +
         ", extraData=" + extraData +
-        ", createdTime=" + createdTime +
-        ", updatedTime=" + updatedTime +
+        ", createTime=" + createTime +
+        ", updateTime=" + updateTime +
         "}"
     }
 }

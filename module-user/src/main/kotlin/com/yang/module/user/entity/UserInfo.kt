@@ -1,9 +1,11 @@
 package com.yang.module.user.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.time.Duration
 import java.time.LocalDateTime;
 
 /**
@@ -46,7 +48,7 @@ class UserInfo : Serializable {
     /**
      * 用户类型: 1-普通用户, 2-管理员
      */
-    var userType: Byte? = null
+    var userType: Int? = null
 
     /**
      * 状态: 0-禁用, 1-启用
@@ -63,20 +65,26 @@ class UserInfo : Serializable {
      */
     var vipExpireTime: LocalDateTime? = null
 
+    @TableField(exist = false)
+    var isVip: Boolean = false
+
+    @TableField(exist = false)
+    var vipDaysLeft: Long =  0L
+
     /**
      * 恢复次数
      */
-    var recoveryCount: Int? = null
+    var recoveryCount: Int = 0
 
     /**
      * 创建时间
      */
-    var createdTime: LocalDateTime? = null
+    var createTime: LocalDateTime? = null
 
     /**
      * 更新时间
      */
-    var updatedTime: LocalDateTime? = null
+    var updateTime: LocalDateTime? = null
 
     override fun toString(): String {
         return "UserInfo{" +
@@ -90,8 +98,8 @@ class UserInfo : Serializable {
         ", vipLevel=" + vipLevel +
         ", vipExpireTime=" + vipExpireTime +
         ", recoveryCount=" + recoveryCount +
-        ", createdTime=" + createdTime +
-        ", updatedTime=" + updatedTime +
+        ", createdTime=" + createTime +
+        ", updatedTime=" + updateTime +
         "}"
     }
 }

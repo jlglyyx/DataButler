@@ -25,7 +25,7 @@ enum class ResultEnum(val code:Int, val message:String,val success:Boolean) {
     // 商品与订单相关
     PRODUCT_OFFLINE_ERROR(2001, "商品已下架", false),
     ORDER_NOT_FOUND_ERROR(2002, "找不到对应订单", false),
-    COUNT_NOT_ENOUGH_ERROR(2003, "恢复次数不足", false),
+    COUNT_NOT_ENOUGH_ERROR(2003, "权益次数不足", false),
     VIP_EXPIRED_ERROR(2004, "会员已到期", false),
 
     // === 系统级错误 (后缀 _EXCEPTION) ===

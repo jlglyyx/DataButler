@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author yyx
- * @since 2026-03-22
+ * @since 2026-04-01
  */
 @RestController
 @RequestMapping("/user/user-extra-info")

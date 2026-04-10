@@ -9,6 +9,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author yyx
- * @since 2026-03-22
+ * @since 2026-04-01
  */
 interface UserExtraInfoMapper : BaseMapper<UserExtraInfo>

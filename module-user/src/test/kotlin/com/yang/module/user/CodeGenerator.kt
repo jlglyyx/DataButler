@@ -34,7 +34,8 @@ fun main() {
                 ))
         }
         .strategyConfig { builder ->
-            builder.addInclude("order_info") // 需要生成的表名
+            builder.addInclude("user_extra_info") // 需要生成的表名
+//            builder.addInclude("order_info") // 需要生成的表名
 //            builder.addInclude("user_info","product_info","user_extra_info") // 需要生成的表名
                 .entityBuilder()
                 .enableFileOverride() // 覆盖已生成文件

@@ -15,4 +15,8 @@ interface IUserInfoService : IService<UserInfo> {
 
     fun login(userInfo: UserInfo): UserInfo?
 
+    fun getUserInfo(id: Long): UserInfo?
+
+    fun isVip(id: Long): Boolean
+
 }

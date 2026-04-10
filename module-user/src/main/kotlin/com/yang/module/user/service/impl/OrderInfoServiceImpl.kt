@@ -1,12 +1,20 @@
 package com.yang.module.user.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
+import com.yang.lib.common.data.ResultEnum
+import com.yang.lib.common.helper.requestFail
+import com.yang.lib.common.helper.requestSuccess
+import com.yang.module.user.config.AlipayManager
 import com.yang.module.user.entity.OrderInfo
+import com.yang.module.user.entity.UserInfo
 import com.yang.module.user.mapper.OrderInfoMapper
 import com.yang.module.user.mapper.ProductInfoMapper
 import com.yang.module.user.service.IOrderInfoService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import java.time.Duration
 import java.time.LocalDateTime
 
 /**
@@ -18,7 +26,7 @@ import java.time.LocalDateTime
  * @since 2026-03-22
  */
 @Service
-open class OrderInfoServiceImpl(private val mProductInfoMapper: ProductInfoMapper) : ServiceImpl<OrderInfoMapper, OrderInfo>(), IOrderInfoService {
+open class OrderInfoServiceImpl(private val mProductInfoMapper: ProductInfoMapper,private val mAlipayManager: AlipayManager) : ServiceImpl<OrderInfoMapper, OrderInfo>(), IOrderInfoService {
 
     @Transactional(rollbackFor = [Exception::class])
     override fun createOrder(userId: Long, productId: Long): OrderInfo? {
@@ -37,13 +45,31 @@ open class OrderInfoServiceImpl(private val mProductInfoMapper: ProductInfoMappe
             this.userId = userId
             this.productId = productId
             this.productName = product.name // 冗余一份快照名，防止以后商品改名
+            this.currency = product.currency   // 使用后端查询到的金额
             this.totalAmount = realAmount   // 使用后端查询到的金额
             this.status = 0
             this.createTime = LocalDateTime.now()
         }
 
         this.save(order)
-        return order
+
+        val createPayInfo = mAlipayManager.createPayInfo(orderNo, product)
+
+        if (createPayInfo.isEmpty()) {
+
+            return null
+        }
+
+        val orderInfo = OrderInfo()
+
+        orderInfo.id = order.id
+
+        orderInfo.alpayInfo = createPayInfo
+
+        return orderInfo
     }
+
+
+
 
 }

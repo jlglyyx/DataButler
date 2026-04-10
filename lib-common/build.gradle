@@ -9,5 +9,18 @@ jar { enabled = true }
 dependencies {
 
     api 'com.google.code.gson:gson:2.10.1'
+
+    api 'com.baomidou:mybatis-plus-spring-boot3-starter:3.5.5'
+    // 代码生成器
+    api 'com.baomidou:mybatis-plus-generator:3.5.5'
+//    implementation 'com.baomidou:mybatis-plus-extension:3.5.5'
+
+
+    // MySQL 驱动（8.x）
+    api 'com.mysql:mysql-connector-j:8.3.0'
+
+
+    // 模板引擎（推荐 Velocity）
+    api 'org.apache.velocity:velocity-engine-core:2.3'
 //
 }

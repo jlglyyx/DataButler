@@ -1,8 +1,10 @@
 package com.yang.module.user.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType
+import com.baomidou.mybatisplus.annotation.TableField
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.yang.lib.common.data.PageRequest
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,7 +18,7 @@ import java.time.LocalDateTime;
  * @since 2026-03-22
  */
 @TableName("order_info")
-class OrderInfo : Serializable {
+class OrderInfo : Serializable, PageRequest() {
 
     /**
      * 主键ID (雪花算法生成)
@@ -45,6 +47,10 @@ class OrderInfo : Serializable {
     var productName: String? = null
 
     /**
+     * 单位
+     */
+    var currency: String? = null
+    /**
      * 订单总金额
      */
     var totalAmount: BigDecimal? = null
@@ -52,12 +58,12 @@ class OrderInfo : Serializable {
     /**
      * 订单状态: 0-待支付, 1-已支付, 2-已取消, 3-已退款
      */
-    var status: Byte? = null
+    var status: Int? = null
 
     /**
      * 支付方式: 1-支付宝, 2-微信
      */
-    var payType: Byte? = null
+    var payType: Int? = null
 
     /**
      * 支付宝交易流水号 (回调时存入)
@@ -79,6 +85,9 @@ class OrderInfo : Serializable {
      */
     var updateTime: LocalDateTime? = null
 
+    @TableField(exist = false)
+    var alpayInfo : String? = null
+
     override fun toString(): String {
         return "OrderInfo{" +
         "id=" + id +
@@ -86,6 +95,7 @@ class OrderInfo : Serializable {
         ", userId=" + userId +
         ", productId=" + productId +
         ", productName=" + productName +
+        ", currency=" + currency +
         ", totalAmount=" + totalAmount +
         ", status=" + status +
         ", payType=" + payType +
