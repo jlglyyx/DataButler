@@ -1,0 +1,1 @@
+java -cp "databox.jar:lib/*" com.yang.module.user.ModuleUserApplicationKt

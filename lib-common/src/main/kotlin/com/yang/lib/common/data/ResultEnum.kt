@@ -27,6 +27,10 @@ enum class ResultEnum(val code:Int, val message:String,val success:Boolean) {
     ORDER_NOT_FOUND_ERROR(2002, "找不到对应订单", false),
     COUNT_NOT_ENOUGH_ERROR(2003, "权益次数不足", false),
     VIP_EXPIRED_ERROR(2004, "会员已到期", false),
+    REFUND_AMOUNT_EXCEED_ERROR(2005, "退款金额大于订单金额", false),
+    OPERATOR_PERMISSION_DENIED(2006, "操作人权限不足", false),
+    REFUND_FAILED_CONTACT_SERVICE(2007, "退款失败，请将订单号和支付宝截图发送客服处理", false),
+    REFUND_AMOUNT_FORMATE_ERROR(2008, "退款金额格式错误", false),
 
     // === 系统级错误 (后缀 _EXCEPTION) ===
     SYSTEM_INNER_EXCEPTION(500, "系统内部异常", false),

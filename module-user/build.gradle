@@ -31,3 +31,28 @@ dependencies {
 
     implementation("com.alipay.sdk:alipay-sdk-java:4.38.157.ALL")
 }
+
+// 确保生成普通的 jar 包，而不是 Spring Boot 的 Fat Jar
+jar {
+    enabled = true
+    archiveClassifier = '' // 保证生成的名字不带 -plain
+    manifest {
+        attributes(
+                'Main-Class': 'com.yang.module.user.ModuleUserApplication'
+        )
+    }
+}
+
+bootJar {
+    enabled = false // 关闭默认的打包方式
+}
+
+// 关键：拷贝所有依赖（包括 lib-common）到 build/libs/lib
+task copyDependencies(type: Copy) {
+    // runtimeClasspath 会自动包含 lib-common 的 jar
+    from configurations.runtimeClasspath
+    into "${buildDir}/libs/lib"
+}
+
+// 每次 build 时自动执行拷贝
+build.dependsOn copyDependencies

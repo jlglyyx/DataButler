@@ -54,6 +54,10 @@ class OrderInfo : Serializable, PageRequest() {
      * 订单总金额
      */
     var totalAmount: BigDecimal? = null
+    /**
+     * 退款总金额
+     */
+    var rebackAmount: BigDecimal? = null
 
     /**
      * 订单状态: 0-待支付, 1-已支付, 2-已取消, 3-已退款

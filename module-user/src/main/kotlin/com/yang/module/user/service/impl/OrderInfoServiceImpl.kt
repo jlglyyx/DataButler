@@ -69,7 +69,30 @@ open class OrderInfoServiceImpl(private val mProductInfoMapper: ProductInfoMappe
         return orderInfo
     }
 
+    @Transactional(rollbackFor = [Exception::class])
+    override fun refundOrder(mOrderInfo: OrderInfo): OrderInfo? {
 
+        // 1. 先调用支付宝
+        val isAlipaySuccess = mAlipayManager.reBackAlipay(mOrderInfo)
+
+        if (isAlipaySuccess) {
+            // 2. 执行数据库更新
+            // 建议增加 version 或 status 的乐观锁检查，防止并发
+            val update = ktUpdate().eq(OrderInfo::orderNo, mOrderInfo.orderNo)
+                .eq(OrderInfo::status, 1) // 确保状态还是待退款
+                .set(OrderInfo::rebackAmount, mOrderInfo.rebackAmount)
+                .set(OrderInfo::status, 3) // 3-已退款
+                .update()
+
+            if (update) {
+                return ktQuery().eq(OrderInfo::orderNo, mOrderInfo.orderNo).one()
+            } else {
+                // 实际开发中这里应该抛出自定义异常，触发事务回滚，并由定时任务/人工介入对账
+                throw RuntimeException("支付宝退款成功但数据库更新失败，单号：${mOrderInfo.orderNo} 金额${mOrderInfo.rebackAmount}")
+            }
+        }
+        return null
+    }
 
 
 }

@@ -1,10 +1,12 @@
 package com.yang.module.user.controller;
 
+import com.alipay.api.domain.RefundInfo
 import com.alipay.api.internal.util.AlipaySignature
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.yang.lib.common.data.ResultEnum
 import com.yang.lib.common.helper.requestFail
 import com.yang.lib.common.helper.requestSuccess
+import com.yang.lib.common.util.getDecimalPlacesIncludeZero
 import com.yang.module.user.config.AlipayManager
 import com.yang.module.user.entity.OrderInfo
 import com.yang.module.user.entity.ProductInfo
@@ -143,14 +145,52 @@ class OrderInfoController(private val mIOrderInfoService: IOrderInfoService,
 
         val buildPage = mOrderInfo.buildPage<OrderInfo>()
 
+
         val result = mIOrderInfoService.ktQuery().eq(OrderInfo::userId, mOrderInfo.userId)
-            .eq(OrderInfo::status,mOrderInfo.status)
+            .`in`(OrderInfo::status, listOf(1, 3))
             .orderByDesc(OrderInfo::createTime).page(buildPage)
 
         val list =  result.records
 
         return requestSuccess(list)
 
+    }
+
+
+
+    @PostMapping("/refundOrder")
+    fun refundOrder(@RequestBody mOrderInfo: OrderInfo): String {
+
+        // 1. 基础非空校验
+        if (null == mOrderInfo.userId || null == mOrderInfo.orderNo || null == mOrderInfo.rebackAmount) {
+            return requestFail(ResultEnum.PARAM_ERROR_FAIL)
+        }
+
+        if (mOrderInfo.rebackAmount!!.getDecimalPlacesIncludeZero() >= 3){
+
+            return requestFail(ResultEnum.REFUND_AMOUNT_FORMATE_ERROR)
+        }
+
+        val userInfo = mIUserInfoService.getById(mOrderInfo.userId) ?: return requestFail(ResultEnum.USER_NOT_EXIST_ERROR)
+
+        if (userInfo.userType != 2) return requestFail(ResultEnum.FORBIDDEN_FAIL)
+
+        val orderInfo = mIOrderInfoService.ktQuery().eq(OrderInfo::orderNo, mOrderInfo.orderNo).one() ?: return requestFail(ResultEnum.ORDER_NOT_FOUND_ERROR)
+
+        if (mOrderInfo.rebackAmount!!.compareTo(orderInfo.totalAmount) == 1) {
+
+            return requestFail(ResultEnum.REFUND_AMOUNT_EXCEED_ERROR)
+        }
+        if (orderInfo.status != 1) {
+
+            return requestFail(ResultEnum.OPERATOR_PERMISSION_DENIED)
+        }
+
+        mOrderInfo.alipayTradeNo = orderInfo.alipayTradeNo
+
+        val refundOrder = mIOrderInfoService.refundOrder(mOrderInfo) ?: return requestFail(ResultEnum.REFUND_FAILED_CONTACT_SERVICE)
+
+        return requestSuccess(refundOrder)
     }
 
 }

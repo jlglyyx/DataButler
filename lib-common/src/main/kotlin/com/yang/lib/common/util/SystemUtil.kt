@@ -2,6 +2,7 @@ package com.yang.lib.common.util
 
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
+import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDateTime
@@ -49,4 +50,10 @@ fun Date.dateFormat(
         }
 
     }.format(this)
+}
+
+
+fun BigDecimal.getDecimalPlacesIncludeZero(): Int {
+    val plain = this.toPlainString()
+    return if (plain.contains('.')) plain.length - plain.indexOf('.') - 1 else 0
 }

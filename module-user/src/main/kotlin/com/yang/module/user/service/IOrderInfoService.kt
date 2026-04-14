@@ -14,4 +14,6 @@ import com.yang.module.user.entity.OrderInfo
 interface IOrderInfoService : IService<OrderInfo>{
 
     fun createOrder(userId: Long, productId: Long): OrderInfo?
+
+    fun refundOrder(mOrderInfo: OrderInfo): OrderInfo?
 }
